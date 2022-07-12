@@ -1,32 +1,38 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { MdShoppingBasket } from 'react-icons/md';
-
-import logo from '../../assets/images/logo.svg';
-import { Container, Cart } from './styles';
+import Carrinho from '../../assets/images/Vector.svg';
+import { Container, Car } from './styles';
 import { useCart } from '../../hooks/useCart';
-
-const Header = (): JSX.Element => {
+import { useState } from 'react';
+import { Cart } from '../Cart';
+interface CartProps {
+  open: boolean;
+  setOpen: boolean;
+}
+export function Header() {
+  const [openCart, setOpenCart] = useState(false);
   const { cart } = useCart();
-   const cartSize = cart.length;
-
+  const cartSize = cart.length;
+  console.log(openCart);
   return (
-    <Container>
-      <Link to="/">
-        <img src={logo} alt="Rocketshoes" />
-      </Link>
+    <>
+      <Container>
+        <Link to="/">
+          <h1>MKS</h1>
+          <h2>Sistemas</h2>
+        </Link>
 
-      <Cart to="/cart">
-        <div>
-          <strong>Meu carrinho</strong>
-          <span data-testid="cart-size">
-            { cartSize === 1 ? `${cartSize} item` : `${cartSize} itens` }
-          </span>
-        </div>
-        <MdShoppingBasket size={36} color="#FFF" />
-      </Cart>
-    </Container>
+        <Car>
+          <button onClick={() => setOpenCart(true)}>
+            <img src={Carrinho} alt="carrinho" />
+            <span data-testid="cart-size">{cartSize}</span>
+          </button>
+        </Car>
+      </Container>
+      {openCart === true ? (
+        <Cart openCart={openCart} setOpenCart={setOpenCart} />
+      ) : (
+        ''
+      )}
+    </>
   );
-};
-
-export default Header;
+}

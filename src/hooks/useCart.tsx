@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
@@ -39,7 +40,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
         product => product.id === productId
       );
 
-      const stock = await api.get(`/stock/${productId}`);
+      const stock = await axios.get(`/stock/${productId}`);
       const stockAmount = stock.data.amount;
       const currentAmount = productExists ? productExists.amount : 0;
       const amount = currentAmount + 1;

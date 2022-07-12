@@ -1,12 +1,8 @@
-import {
-  MdDelete,
-  MdAddCircleOutline,
-  MdRemoveCircleOutline
-} from 'react-icons/md';
+import { IoClose } from 'react-icons/io5';
 
 import { useCart } from '../../hooks/useCart';
 import { formatPrice } from '../../util/format';
-import { Container, ProductTable, Total } from './styles';
+import { CardProducts, Container, Content, ProductList } from './styles';
 
 interface Product {
   id: number;
@@ -15,8 +11,11 @@ interface Product {
   image: string;
   amount: number;
 }
-
-const Cart = (): JSX.Element => {
+// interface Menu {
+//   open: boolean;
+//   setOpen: boolean;
+// }
+export function Cart({ openCart, setOpenCart }) {
   const { cart, removeProduct, updateProductAmount } = useCart();
 
   const cartFormatted = cart.map(product => ({
@@ -43,36 +42,37 @@ const Cart = (): JSX.Element => {
   }
 
   return (
-    <Container>
-      <ProductTable>
-        <thead>
-          <tr>
-            <th aria-label="product image" />
-            <th>PRODUTO</th>
-            <th>QTD</th>
-            <th>SUBTOTAL</th>
-            <th aria-label="delete icon" />
-          </tr>
-        </thead>
-        <tbody>
+    <Container is={openCart}>
+      <Content>
+        <div>
+          <h1>
+            Carrinho
+            <br />
+            de compras
+          </h1>
+          <button onClick={() => setOpenCart(false)}>
+            <IoClose />
+          </button>
+        </div>
+        <ProductList>
           {cartFormatted.map(product => (
-            <tr key={product.id} data-testid="product">
-              <td>
-                <img src={product.image} alt={product.title} />
-              </td>
-              <td>
-                <strong>{product.title}</strong>
-                <span>{product.priceFormatted}</span>
-              </td>
-              <td>
-                <div>
+            <CardProducts key={product.id}>
+              <img
+                src={product.image}
+                alt={product.title}
+                data-testid="product"
+              />
+              <strong>{product.title}</strong>
+              <div>
+                Qtd
+                <span>
                   <button
                     type="button"
                     data-testid="decrement-product"
                     disabled={product.amount <= 1}
                     onClick={() => handleProductDecrement(product)}
                   >
-                    <MdRemoveCircleOutline size={20} />
+                    -
                   </button>
                   <input
                     type="text"
@@ -85,37 +85,36 @@ const Cart = (): JSX.Element => {
                     data-testid="increment-product"
                     onClick={() => handleProductIncrement(product)}
                   >
-                    <MdAddCircleOutline size={20} />
+                    +
                   </button>
-                </div>
-              </td>
-              <td>
-                <strong>{product.subTotal}</strong>
-              </td>
-              <td>
-                <button
-                  type="button"
+                </span>
+              </div>
+              {/* <span>{product.priceFormatted}</span> */}
+              <button>
+                <IoClose
                   data-testid="remove-product"
                   onClick={() => handleRemoveProduct(product.id)}
-                >
-                  <MdDelete size={20} />
-                </button>
-              </td>
-            </tr>
+                />
+              </button>
+              {/* 
+                    <button
+                      
+                    >
+                      <MdAddCircleOutline size={20} />
+                    </button> */}
+              <strong>{product.subTotal}</strong>
+            </CardProducts>
           ))}
-        </tbody>
-      </ProductTable>
+        </ProductList>
 
-      <footer>
-        <button type="button">Finalizar pedido</button>
-
-        <Total>
-          <span>TOTAL</span>
-          <strong>{total}</strong>
-        </Total>
-      </footer>
+        <footer>
+          <div>
+            <span>Total:</span>
+            <strong>{total}</strong>
+          </div>
+          <button type="button">Finalizar Compra</button>
+        </footer>
+      </Content>
     </Container>
   );
-};
-
-export default Cart;
+}
