@@ -1,8 +1,11 @@
 import { IoClose } from 'react-icons/io5';
+import { useSelector } from 'react-redux';
 
 import { useCart } from '../../hooks/useCart';
+import { IState } from '../../store';
+import { ICarItem } from '../../store/modules/cart/types';
 import { formatPrice } from '../../util/format';
-import { CardProducts, Container, Content, ProductList } from './styles';
+import { CartItem, Container, Content, ProductList } from './styles';
 
 interface Product {
   id: number;
@@ -17,15 +20,16 @@ interface Product {
 // }
 export function Cart({ openCart, setOpenCart }) {
   const { cart, removeProduct, updateProductAmount } = useCart();
-
-  const cartFormatted = cart.map(product => ({
+  const car = useSelector<IState, ICarItem[]>(state => state.cart.items);
+  console.log('car', car);
+  const cartFormatted = car.map(product => ({
     ...product,
-    priceFormatted: formatPrice(product.price),
-    subTotal: formatPrice(product.price * product.amount)
+    price: formatPrice(product.product.price),
+    subTotal: formatPrice(product.product.price * product.quantity)
   }));
   const total = formatPrice(
-    cart.reduce((sumTotal, product) => {
-      return sumTotal + product.price * product.amount;
+    car.reduce((sumTotal, product) => {
+      return sumTotal + product.product.price * product.quantity;
     }, 0)
   );
 
@@ -40,7 +44,8 @@ export function Cart({ openCart, setOpenCart }) {
   function handleRemoveProduct(productId: number) {
     removeProduct(productId);
   }
-
+  // const subTotal = cartFormatted.find(() => 'subTotal')
+  // console.log();
   return (
     <Container is={openCart}>
       <Content>
@@ -54,23 +59,23 @@ export function Cart({ openCart, setOpenCart }) {
             <IoClose />
           </button>
         </div>
-        <ProductList>
-          {cartFormatted.map(product => (
-            <CardProducts key={product.id}>
+        {cartFormatted.map(item => (
+          <ProductList key={item.product.id}>
+            <CartItem>
               <img
-                src={product.image}
-                alt={product.title}
+                src={item.product.photo}
+                alt={item.product.name}
                 data-testid="product"
               />
-              <strong>{product.title}</strong>
+              <strong>{item.product.name}</strong>
               <div>
-                Qtd
+                <small>Qtd:</small>
                 <span>
                   <button
                     type="button"
                     data-testid="decrement-product"
-                    disabled={product.amount <= 1}
-                    onClick={() => handleProductDecrement(product)}
+                    disabled={item.quantity <= 1}
+                    // onClick={() => handleProductDecrement()}
                   >
                     -
                   </button>
@@ -78,35 +83,26 @@ export function Cart({ openCart, setOpenCart }) {
                     type="text"
                     data-testid="product-amount"
                     readOnly
-                    value={product.amount}
+                    value={item.quantity}
                   />
                   <button
                     type="button"
                     data-testid="increment-product"
-                    onClick={() => handleProductIncrement(product)}
+                    // onClick={() => handleProductIncrement(product)}
                   >
                     +
                   </button>
                 </span>
               </div>
-              {/* <span>{product.priceFormatted}</span> */}
-              <button>
-                <IoClose
-                  data-testid="remove-product"
-                  onClick={() => handleRemoveProduct(product.id)}
-                />
-              </button>
-              {/* 
-                    <button
-                      
-                    >
-                      <MdAddCircleOutline size={20} />
-                    </button> */}
-              <strong>{product.subTotal}</strong>
-            </CardProducts>
-          ))}
-        </ProductList>
-
+              <span>{item.subTotal}</span>
+              <IoClose
+                data-testid="remove-product"
+                // onClick={() => handleRemoveProduct(product.id)}
+              />
+              {/* <strong>{item.product.price}</strong> */}
+            </CartItem>
+          </ProductList>
+        ))}
         <footer>
           <div>
             <span>Total:</span>

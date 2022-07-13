@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { darken, lighten } from 'polished';
 
 export const Container = styled.div`
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100vh;
   max-width: 1440px;
@@ -14,12 +14,7 @@ export const Content = styled.div`
   width: 486px;
   height: 100vh;
   box-shadow: -5px 0px 6px rgba(0, 0, 0, 0.13);
-  ${({ is }) =>
-    is &&
-    css`
-      position: fixed;
-      height: 100vh;
-    `}
+  overflow: auto;
   div {
     padding: 47px;
     display: flex;
@@ -47,10 +42,12 @@ export const Content = styled.div`
     bottom: 0;
     div {
       width: 100%;
+      height: 100px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-size: 28px;
+      background-color: #0f52ba;
       color: #fff;
       font-weight: 700;
     }
@@ -74,66 +71,84 @@ export const Content = styled.div`
 `;
 
 export const ProductList = styled.div`
-  padding: 0 47px;
   width: 100%;
-  height: 100%;
-  color: #ffffff;
+  height: 101px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+`;
+export const CartItem = styled.article`
+  height: 95px;
+  width: 379px;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
   img {
-    height: 100px;
+    height: 100%;
   }
-
   strong {
-    color: #333;
-    display: block;
+    margin-left: 10px;
+    font-weight: 400;
+    width: 10%;
+    font-size: 13px;
+    color: #2c2c2c;
   }
-
-  span {
-    display: block;
-    margin-top: 5px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-
   div {
+    width: 30%;
+    display: inline-block;
+    span {
+      margin-left: -50px;
+      margin: auto;
+      height: 19px;
+      width: 50px;
+      border: 0.3px solid #bfbfbf;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      input {
+        width: 60%;
+        text-align: center;
+        border-left: 0.3px solid #bfbfbf;
+        border-right: 0.3px solid #bfbfbf;
+        border-top: 0;
+        border-bottom: 0;
+      }
+      button {
+        background-color: #fff;
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0;
+        font-size: 12px;
+      }
+    }
+  }
+  span {
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    margin-right: 20px;
+  }
+  > svg {
+    margin-top: -90px;
+    position: absolute;
+    margin-left: 350px;
+    background-color: #000000;
+    color: #fff;
+    border-radius: 50%;
+    height: 18px;
+    width: 18px;
+    border: none;
     display: flex;
     align-items: center;
-
-    input {
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      color: #666;
-      padding: 6px;
-      width: 50px;
-    }
+    justify-content: center;
+    font-size: 14px;
   }
-
-  button {
-    background: none;
-    border: 0;
-    padding: 6px;
-
-    svg {
-      color: #7159c1;
-      transition: color 0.2s;
-    }
-
-    &:hover {
-      svg {
-        color: ${darken(0.06, '#7159c1')};
-      }
-    }
-
-    &:disabled {
-      svg {
-        color: ${lighten(0.25, '#7159c1')};
-        cursor: not-allowed;
-      }
-    }
-  }
-`;
-
-export const CardProducts = styled.div`
-  width: 100%;
-  height: 95px;
-  border-radius: 8px;
 `;

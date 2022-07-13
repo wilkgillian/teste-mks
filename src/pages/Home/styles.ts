@@ -52,12 +52,10 @@ export const ProductList = styled.ul`
       }
       span {
         display: flex;
-        /* width: 64px; */
         height: 26px;
         border-radius: 5px;
         background-color: #373737;
         color: #fff;
-        /* font-size: 15px; */
         font-weight: 700;
         padding: 4px 7px;
       }
