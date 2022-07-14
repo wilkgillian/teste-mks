@@ -3,39 +3,18 @@ import { FiShoppingBag } from 'react-icons/fi';
 
 import { Container, ProductList } from './styles';
 import { formatPrice } from '../../util/format';
-import { useCart } from '../../hooks/useCart';
 import axios from 'axios';
-import { Cart } from '../../components/Cart';
 import { useDispatch } from 'react-redux';
 import { addProductToCart } from '../../store/modules/cart/actions';
 import { IProduct } from '../../store/modules/cart/types';
-// interface Products {
-//   id: string;
-//   name: string;
-//   brand: string;
-//   description: number;
-//   photo: string;
-//   price: number;
-// }
+
 interface ProductFormatted extends IProduct {
   priceFormatted: string;
 }
-// //
-// interface CartItemsAmount {
-//   [key: number]: number;
-// }<ProductFormatted[]>
 
 const Home = (): JSX.Element => {
   const [products, setProducts] = useState<ProductFormatted[]>([]);
   const dispatch = useDispatch();
-  const { addProduct, cart } = useCart();
-
-  // const cartItemsAmount = cart.reduce((sumAmount, product) => {
-  //   const newSumAmount = { ...sumAmount };
-  //   newSumAmount[product.id] = product.amount;
-
-  //   return newSumAmount;
-  // }, {} as CartItemsAmount);
 
   useEffect(() => {
     async function loadProducts() {
@@ -66,9 +45,12 @@ const Home = (): JSX.Element => {
     loadProducts();
   }, []);
 
-  const handleAddProductToCart = useCallback((product: IProduct) => {
-    dispatch(addProductToCart(product))
-  }, [dispatch]);
+  const handleAddProductToCart = useCallback(
+    (product: IProduct) => {
+      dispatch(addProductToCart(product));
+    },
+    [dispatch]
+  );
   return (
     <Container>
       <ProductList>

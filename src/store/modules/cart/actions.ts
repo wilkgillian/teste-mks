@@ -8,3 +8,19 @@ export function addProductToCart(product: IProduct) {
     }
   };
 }
+export function decrementProductFromCart(product: IProduct) {
+  return {
+    type: 'DECREMENT_PRODUCT_FROM_CART',
+    payload: {
+      product
+    }
+  };
+}
+export function removeProductFromCart(product: IProduct) {
+  return {
+    type: 'REMOVE_PRODUCT_FROM_CART',
+    payload: {
+      product
+    }
+  };
+}

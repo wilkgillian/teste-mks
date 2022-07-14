@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components';
-import { darken, lighten } from 'polished';
+import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   position: fixed;
@@ -127,6 +127,10 @@ export const CartItem = styled.article`
         justify-content: center;
         border-radius: 0;
         font-size: 12px;
+        :disabled {
+          opacity: 0.2;
+          cursor: not-allowed;
+        }
       }
     }
   }
