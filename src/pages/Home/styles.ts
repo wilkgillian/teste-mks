@@ -13,7 +13,9 @@ export const ProductList = styled.ul`
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 22px;
   list-style: none;
-
+  /* @media (max-width: 375px){
+    display: block;
+  } */
   li {
     width: 217.56px;
     height: 285px;
@@ -25,7 +27,6 @@ export const ProductList = styled.ul`
     justify-content: space-between;
     background: #fff;
     border-radius: 4px;
-    /* padding: 14px 14px 0 14px; */
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.13);
 
     img {

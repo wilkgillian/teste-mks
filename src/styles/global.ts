@@ -12,7 +12,7 @@ export default createGlobalStyle`
   body {
     background: #fff;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
   }
   iframe {
     display: none;
