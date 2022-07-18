@@ -29,7 +29,7 @@ const cart: Reducer<ICartState> = (state = INITIAL_STATE, action) => {
         if (productInCartIndex >= 0) {
           draft.items[productInCartIndex].quantity--;
         } else {
-          draft.items.push({ product, quantity: -1 });
+          draft.items.push({ product, quantity: 1 });
         }
 
         break;
